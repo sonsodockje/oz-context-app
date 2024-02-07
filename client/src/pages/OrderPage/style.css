@@ -1,0 +1,10 @@
+.flex {
+  display: flex;
+}
+.row {
+  width: 50%;
+}
+
+.products_wrap {
+  margin-bottom: 4rem;
+}
