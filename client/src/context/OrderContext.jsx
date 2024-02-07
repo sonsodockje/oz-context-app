@@ -1,11 +1,11 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useMemo, useState, useEffect } from "react";
 
-const OrderContext = createContext();
+export const OrderContext = createContext();
 
 export function OrderContextProvider(props) {
   const [orderCounts, setOrderCounts] = useState({
-    product: new Map(),
-    option: new Map(),
+    products: new Map(),
+    options: new Map(),
   });
 
   const [totals, setTotals] = useState({
@@ -13,18 +13,19 @@ export function OrderContextProvider(props) {
     option: 0,
     total: 0,
   });
+
   const pricePerItem = {
     products: 1000,
     option: 500,
   };
-  function calculateSubtotal(orderType, orderCounts) {
+
+  const calculateSubtotal = (orderType, orderCounts) => {
     let optionCount = 0;
-    for (const count of orderCounts[orderType].value()) {
+    for (const count of orderCounts[orderType].values()) {
       optionCount += count;
-      console.log(count);
     }
     return optionCount * pricePerItem[orderType];
-  }
+  };
 
   useEffect(() => {
     const productsTotal = calculateSubtotal("products", orderCounts);
@@ -40,12 +41,10 @@ export function OrderContextProvider(props) {
   const value = useMemo(() => {
     function updateItemCount(itemName, newItemCount, orderType) {
       const newOrderCounts = { ...orderCounts };
-      const orderCountsmap = orderCounts[orderType];
-
-      orderCountsmap.set(itemName, parseInt(newOrderCounts));
+      const orderCountMap = orderCounts[orderType];
+      orderCountMap.set(itemName, parseInt(newItemCount));
       setOrderCounts(newOrderCounts);
     }
-
     return [{ ...orderCounts, totals }, updateItemCount];
   }, [orderCounts, totals]);
 
