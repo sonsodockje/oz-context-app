@@ -25,28 +25,19 @@ export function OrderContextProvider(props) {
     for (const count of orderCounts[orderType].values()) {
       optionCount += count;
     }
-
-    console.log("calculateSubtotal", optionCount * pricePerItem[orderType]);
     return optionCount * pricePerItem[orderType];
   };
 
   useEffect(() => {
     const productsTotal = calculateSubtotal("products", orderCounts);
-    console.log("productsTotal", productsTotal);
-
     const optionsTotal = calculateSubtotal("options", orderCounts);
-    console.log("optionsTotal", optionsTotal);
-
     const total = productsTotal + optionsTotal;
-    console.log("total", total);
 
     setTotals({
       products: productsTotal,
       options: optionsTotal,
       totals: total,
     });
-
-    console.log("totals", totals);
   }, [orderCounts]);
 
   const value = useMemo(() => {
@@ -54,10 +45,10 @@ export function OrderContextProvider(props) {
       const newOrderCounts = { ...orderCounts };
       const orderCountMap = orderCounts[orderType];
       orderCountMap.set(itemName, parseInt(newItemCount));
-      console.log("newOrderCounts :", newOrderCounts);
+
       setOrderCounts(newOrderCounts);
     }
-    return [{ ...orderCounts, totals }, updateItemCount];
+    return [{ ...orderCounts, totals, pricePerItem }, updateItemCount];
   }, [orderCounts, totals]);
 
   return <OrderContext.Provider value={value} {...props} />;

@@ -1,7 +1,5 @@
-import React from "react";
-
-const CompletePage = () => {
-  return <div>CompletePage</div>;
+const CompletePage = ({ setStep }) => {
+  return <div>page</div>;
 };
 
 export default CompletePage;

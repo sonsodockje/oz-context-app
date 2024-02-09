@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const SummaryPage = () => {
+const SummaryPage = ({ setStep }) => {
   const [checked, setChecked] = useState(false);
   return (
     <div>
@@ -15,9 +15,10 @@ const SummaryPage = () => {
         />{" "}
         <label htmlFor="confirm_checkbox">주문 확인을 해주세요.</label>
         <br />
-        <button type="submit" disabled={!checked}>
+        <button disabled={!checked} onClick={() => setStep(2)}>
           주문확인
         </button>
+        <button onClick={() => setStep(0)}>취소</button>
       </form>
     </div>
   );

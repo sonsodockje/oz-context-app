@@ -9,8 +9,7 @@ import { OrderContext } from "../context/OrderContext";
 const Type = ({ orderType }) => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(false);
-  const [orderData, updateItemCount] = useContext(OrderContext);
-  console.log("orderData.totals", orderData.totals);
+  const [OrderContextData, updateItemCount] = useContext(OrderContext);
 
   useEffect(() => {
     loadItems(orderType);
@@ -30,6 +29,7 @@ const Type = ({ orderType }) => {
   }
 
   const ItemComponent = orderType === "products" ? Products : Options;
+  const h2 = orderType === "products" ? "Products" : "Options";
 
   const optionItems = items.map((item) => {
     return (
@@ -46,9 +46,11 @@ const Type = ({ orderType }) => {
 
   return (
     <div>
-      <h2>{orderType}</h2>
-      <p>하나의 가격</p>
-      <p>총 가격:{orderData.totals[orderType]}</p>
+      <h2>{h2}</h2>
+      <div className="both">
+        <p>하나의 가격 : {OrderContextData.pricePerItem[orderType]} WON</p>
+        <p>총 가격 : {OrderContextData.totals[orderType]} WON</p>
+      </div>
       <div
         style={{
           display: "flex",

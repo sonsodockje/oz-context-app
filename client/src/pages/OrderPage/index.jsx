@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./style.css";
 import Type from "../../components/Type";
-import Products from "../../components/Products";
+import { OrderContext } from "../../context/OrderContext";
 
-const OrderPage = () => {
+const OrderPage = ({ setStep }) => {
+  const [OrderContextData] = useContext(OrderContext);
+
   return (
     <div>
       <div className="products_wrap">
@@ -14,8 +16,8 @@ const OrderPage = () => {
           <Type orderType="options" />
         </div>
         <div className="row">
-          <h2>total price : </h2>
-          <button>주문</button>
+          <h2>total price : {OrderContextData.totals.totals}</h2>
+          <button onClick={() => setStep(1)}>주문하기</button>
         </div>
       </div>
     </div>
