@@ -9,21 +9,23 @@ export function OrderContextProvider(props) {
   });
 
   const [totals, setTotals] = useState({
-    product: 0,
-    option: 0,
-    total: 0,
+    products: 0,
+    options: 0,
+    totals: 0,
   });
 
   const pricePerItem = {
     products: 1000,
-    option: 500,
+    options: 500,
   };
 
   const calculateSubtotal = (orderType, orderCounts) => {
     let optionCount = 0;
+
     for (const count of orderCounts[orderType].values()) {
       optionCount += count;
     }
+
     console.log("calculateSubtotal", optionCount * pricePerItem[orderType]);
     return optionCount * pricePerItem[orderType];
   };
@@ -31,15 +33,17 @@ export function OrderContextProvider(props) {
   useEffect(() => {
     const productsTotal = calculateSubtotal("products", orderCounts);
     console.log("productsTotal", productsTotal);
+
     const optionsTotal = calculateSubtotal("options", orderCounts);
     console.log("optionsTotal", optionsTotal);
+
     const total = productsTotal + optionsTotal;
     console.log("total", total);
 
     setTotals({
-      product: productsTotal,
-      option: optionsTotal,
-      total: total,
+      products: productsTotal,
+      options: optionsTotal,
+      totals: total,
     });
 
     console.log("totals", totals);
